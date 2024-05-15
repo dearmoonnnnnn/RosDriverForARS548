@@ -100,6 +100,9 @@ void detectionReceive(const ars548_process::DetectionList& msg)
             // 将多普勒速度和信号强度存储到对应通道中
             doppler_channel.values.push_back(msg.detection_array[i].f_RangeRate); 
             intensity_channel.values.push_back(msg.detection_array[i].s_RCS);
+            
+            std::cout << "RCS : " << msg.detection_array[i].s_RCS << std::endl;
+
         }
 
         // 将通道添加到点云消息中

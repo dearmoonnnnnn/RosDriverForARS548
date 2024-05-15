@@ -218,7 +218,15 @@ bool DataProcess::processDetectionListMessage(char *in,RadarDetectionList *d_lis
         d_list->detection_array[num].u_InvalidFlags = (unsigned char)(in[base_index+8]);
         d_list->detection_array[num].f_RangeRate = cvt.byteToFloat(in + base_index +25);            // 点的径向速度
         d_list->detection_array[num].f_RangeRateSTD = cvt.byteToFloat(in + base_index +29);
-        d_list->detection_array[num].s_RCS = (signed char)(in[base_index+33]);                      // 点的RCS
+       
+        /*** RCS ***/
+        // d_list->detection_array[num].s_RCS = (signed char)(in[base_index+33]);                      // 点的RCS
+        char x = 0xF5; 
+        char * test = &x;
+        std::cout << "/--- x: " << x << std::endl;
+        // d_list->detection_array[num].s_RCS = static_cast<unsigned int>(*(in + base_index + 33));
+        std::cout << "/--- s_RCS: " << (static_cast<unsigned int>(*test) & 0xFF) << std::endl;
+
         d_list->detection_array[num].u_MeasurementID = cvt.byteToUshort(in + base_index +34);
         d_list->detection_array[num].u_PositivePredictiveValue = (unsigned char)(in[base_index+36]);
         d_list->detection_array[num].u_Classification = (unsigned char)(in[base_index+37]);
