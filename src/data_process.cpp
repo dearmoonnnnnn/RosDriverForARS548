@@ -136,7 +136,7 @@ bool DataProcess::processObjectListMessage(char * in, RadarObjectList *o_list)
     return true;
 }
 
-bool DataProcess::processDetectionListMessage(char *in,RadarDetectionList *d_list)
+bool DataProcess::processDetectionListMessage(char *in, RadarDetectionList *d_list)
 {
     float f_AzimuthAngle;
     float f_ElevationAngle;
@@ -201,9 +201,7 @@ bool DataProcess::processDetectionListMessage(char *in,RadarDetectionList *d_lis
         f_AzimuthAngle = cvt.byteToFloat(in + base_index);                      // 点的方位角
         f_ElevationAngle = cvt.byteToFloat(in + base_index +9);                 // 点的俯仰角
         f_Range = cvt.byteToFloat(in + base_index +17);                         // 点的径向距离
-        std::cout << "f_AzimuthAngle: " << f_AzimuthAngle << std::endl;
-        std::cout << "f_ElevationAngle: " << f_ElevationAngle << std::endl;
-        std::cout << "f_Rangle: " << f_Range << std::endl;
+        
 
         if((f_AzimuthAngle == 0.0 && f_ElevationAngle == 0.0)||f_Range == 0)
             break;
@@ -211,9 +209,7 @@ bool DataProcess::processDetectionListMessage(char *in,RadarDetectionList *d_lis
         d_list->detection_array[num].f_y = f_Range*cos(f_ElevationAngle)*sin(f_AzimuthAngle);
         d_list->detection_array[num].f_z = f_Range*sin(f_ElevationAngle);
 
-        std::cout << "x:" << d_list->detection_array[num].f_x  << "； 原始：" << f_Range*cos(f_ElevationAngle)*cos(f_AzimuthAngle) << std::endl;
-        std::cout << "y:" << d_list->detection_array[num].f_y << std::endl;
-        std::cout << "z:" << d_list->detection_array[num].f_z << std::endl;
+    
 
         d_list->detection_array[num].u_InvalidFlags = (unsigned char)(in[base_index+8]);
         d_list->detection_array[num].f_RangeRate = cvt.byteToFloat(in + base_index +25);            // 点的径向速度
@@ -221,11 +217,20 @@ bool DataProcess::processDetectionListMessage(char *in,RadarDetectionList *d_lis
        
         /*** RCS ***/
         // d_list->detection_array[num].s_RCS = (signed char)(in[base_index+33]);                      // 点的RCS
-        char x = 0xF5; 
-        char * test = &x;
-        std::cout << "/--- x: " << x << std::endl;
-        // d_list->detection_array[num].s_RCS = static_cast<unsigned int>(*(in + base_index + 33));
-        std::cout << "/--- s_RCS: " << (static_cast<unsigned int>(*test) & 0xFF) << std::endl;
+        d_list->detection_array[num].s_RCS = (static_cast<unsigned int>(*(in + base_index + 33)) & 0xFF);
+        if (0)
+        {
+            std::cout << "/------ data_process s_RCS 赋值前: " << (static_cast<unsigned int>(*(in + base_index + 33)) & 0xFF) << std::endl;
+            std::cout << "/------ data_process s_RCS : " << d_list->detection_array[num].s_RCS<< std::endl;
+            std::cout << std::endl;
+        }
+        
+
+        // char x = 0xF5; 
+        // char * test = &x;
+        // std::cout << "/--- x: " << x << std::endl;
+        // // d_list->detection_array[num].s_RCS = static_cast<unsigned int>(*(in + base_index + 33));
+        
 
         d_list->detection_array[num].u_MeasurementID = cvt.byteToUshort(in + base_index +34);
         d_list->detection_array[num].u_PositivePredictiveValue = (unsigned char)(in[base_index+36]);
@@ -234,6 +239,18 @@ bool DataProcess::processDetectionListMessage(char *in,RadarDetectionList *d_lis
         d_list->detection_array[num].u_ObjectID = cvt.byteToUshort(in + base_index +39);
         d_list->detection_array[num].u_AmbiguityFlag = (unsigned char)(in[base_index+41]);
         d_list->detection_array[num].u_SortIndex = cvt.byteToUshort(in + base_index +42);
+
+        if(1)
+        {
+            // std::cout << "x:" << d_list->detection_array[num].f_x  << ";  原始：" << f_Range*cos(f_ElevationAngle)*cos(f_AzimuthAngle) << std::endl;
+            // std::cout << "y:" << d_list->detection_array[num].f_y << std::endl;
+            // std::cout << "z:" << d_list->detection_array[num].f_z << std::endl;
+
+            // std::cout << "f_AzimuthAngle: " << f_AzimuthAngle << std::endl;
+            // std::cout << "f_ElevationAngle: " << f_ElevationAngle << std::endl;
+            // std::cout << "f_Rangle: " << f_Range << std::endl;
+           
+        }
     }
     if(num< d_list->List_NumOfDetections)
         d_list->List_NumOfDetections = num;

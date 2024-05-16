@@ -152,6 +152,7 @@ void publishObjectList(RadarObjectList list, const std::string& timestampStr)
 
 void publishDetectionList(RadarDetectionList list, const std::string& timestampStr)
 {
+    
     ars548_process::detections det;
     ars548_process::DetectionList det_list;
     int i;
@@ -211,7 +212,7 @@ void publishDetectionList(RadarDetectionList list, const std::string& timestampS
     det_list.Aln_ElevationCorrection = list.Aln_ElevationCorrection;
     det_list.Aln_Status = list.Aln_Status;
 
-    for(i=0;i<list.List_NumOfDetections;i++)
+    for(i = 0; i < list.List_NumOfDetections; i++)
     {
         det.header.frame_id = "world";
         det.header.stamp = ros::Time(seconds, nanoseconds);
@@ -224,6 +225,12 @@ void publishDetectionList(RadarDetectionList list, const std::string& timestampS
         det.f_RangeRate = list.detection_array[i].f_RangeRate;
         det.f_RangeRateSTD = list.detection_array[i].f_RangeRateSTD;
         det.s_RCS = list.detection_array[i].s_RCS;
+        if(1)
+        {
+            std::cout << "/****** publishDetectionList " << std::endl;
+            std::cout << "/------ 右值 s_RCS : " << list.detection_array[i].s_RCS << std::endl;
+            std::cout << "/------ 左值 s_RCS : " << det.s_RCS << std::endl;
+        }
         det.u_MeasurementID = list.detection_array[i].u_MeasurementID;
         det.u_PositivePredictiveValue = list.detection_array[i].u_PositivePredictiveValue;
         det.u_Classification = list.detection_array[i].u_Classification;
@@ -302,7 +309,7 @@ void ProcessRadarData(const nlohmann::json& packet, int len)
                 {
                     if(object_list.ObjectList_NumOfObjects>0){
                         publishObjectList(object_list, timestampStr);
-                        std::cout << "***************publishObjectList*************" << std::endl; 
+                        // std::cout << "***************publishObjectList*************" << std::endl; 
                     }
                             
                 }  
@@ -333,7 +340,7 @@ void ProcessRadarData(const nlohmann::json& packet, int len)
                 {
                     if(detection_list.List_NumOfDetections>0){
                         publishDetectionList(detection_list, timestampStr);
-                        std::cout << "***************publishDetectionList*************" << std::endl;
+                        // std::cout << "***************publishDetectionList*************" << std::endl;
                     }
                 }  
             
@@ -391,7 +398,7 @@ void getDataFromJson(const std::string& filename) {
         if(packets[i].contains("_source") && packets[i]["_source"].contains("layers") && packets[i]["_source"]["layers"].contains("udp")){
 
             int data_length = std::stoi( packets[i]["_source"]["layers"]["udp"]["udp.length"].get<std::string>() ) - 8 ;        //数据长度 = UDP长度 - UDP头部长度
-            std::cout << "data_length: " << data_length << std::endl;
+            // std::cout << "data_length: " << data_length << std::endl;
 
             ProcessRadarData(packets[i], data_length);
         }

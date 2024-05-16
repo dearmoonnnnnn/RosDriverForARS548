@@ -5,7 +5,7 @@
     </node>
     <node pkg="ars548_process" type="test_radar_input_node" name="test_radar_input_node">
     </node>
-    <node pkg="ars548_process" type="info_convert_node" name="info_convert_node">
+    <node pkg="ars548_process" type="info_convert_node" name="info_convert_node" output="screen">
     </node>
     <node pkg="rviz" type="rviz" name="rviz" output="screen" args="-d $(find ars548_process)/launch/ars548_display.rviz">
     </node>
