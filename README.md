@@ -1,4 +1,30 @@
-### 零、配置环境
+### 零、整体思路：
+
+##### 两个项目：
+
+- RosDriverForARS548：
+  - 接受json格式的传感器数据，并用以ROS消息的格式发布
+- rosbag_recorder
+  - 订阅RosDriverForARS548的话题，并生成bag文件
+
+##### 流程：
+
+1. 使用wireshark将pcap(pcapng)的解析结果保存为json文件
+
+   注意需要ars548插件
+
+1. 使用RosDriverForARS548，直接从json文件读取解析结果，和字符流，并发布相关话题
+
+1. 同时使用rosbag_recorder订阅话题，转为bag文件
+
+##### 运行环境：
+
+- Ubuntu18.04  + ROS melodic 或 Ubuntu20.04 + ROS noetic
+
+- nlohmann-json库
+- wireshark
+
+### 一、配置环境：
 
 ##### 1、安装ROS
 
@@ -65,7 +91,7 @@ Autolabor（推荐）：http://www.autolabor.com.cn/book/ROSTutorials/chapter1/1
 sudo apt-get install libpcap-dev
 ```
 
-### 一、使用wireshark将传感器数据转换为json文件
+### 二、使用wireshark将传感器数据转换为json文件
 
 ##### 1、使用wireshark打开抓取的pcapng文件
 
@@ -77,7 +103,7 @@ sudo apt-get install libpcap-dev
 
 ![屏幕截图 2024-01-19 16:16:54](https://raw.githubusercontent.com/letMeEmoForAWhile/typoraImage/main/img/image-2024-01-19-16:16:54.png)
 
-### 二、RosDriverForARS548
+### 三、RosDriverForARS548
 
 ##### 0、修改路径
 
@@ -127,7 +153,7 @@ source ~/.bashrc
 roslaunch ars548_process ars548_process.launch
 ```
 
-### 三、rosbag_tools
+### 四、rosbag_tools
 
 ##### 0、修改路径
 
@@ -170,3 +196,22 @@ source ~/.bashrc
 ```bash
 rosrun rosbag_tools rosbag_recorder 
 ```
+
+### 五、后言
+
+本项目基于以下项目修改：
+
+https://github.com/wulang584513/ARS548-demo/tree/master
+
+修改内容：
+
+1. 原项目希望解析`UDP`数据作为数据入口，但未实现
+   - 本项目使用`wireshark`解析结果的`json`文件作为输入
+2. 原项目发布的点云消息只包含位置信息
+   - 本项目增加了多普勒速度和信号强度（RCS），存储在`sensor_msgs::PointCloud`额外的两个通道中
+3. 原项目RCS数据类型定义错误，导致发布时该值与`wireshark`解析结果不符
+   - 修改定义的结构体和自定义消息文件
+
+具体修改见：
+
+https://github.com/letMeEmoForAWhile/Notes/blob/main/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/%E4%BC%A0%E6%84%9F%E5%99%A8/ars548%E9%9B%B7%E8%BE%BEROS%E9%A9%B1%E5%8A%A8.md
