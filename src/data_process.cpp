@@ -221,7 +221,7 @@ bool DataProcess::processDetectionListMessage(char *in, RadarDetectionList *d_li
         if (0)
         {
             std::cout << "/------ data_process s_RCS 赋值前: " << (static_cast<unsigned int>(*(in + base_index + 33)) & 0xFF) << std::endl;
-            std::cout << "/------ data_process s_RCS : " << d_list->detection_array[num].s_RCS<< std::endl;
+            std::cout << "/------ data_process s_RCS : " << d_list->detection_array[num].s_RCS << std::endl;
             std::cout << std::endl;
         }
         
