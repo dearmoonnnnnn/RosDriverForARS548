@@ -8,19 +8,19 @@
 ##### 两个项目：
 
 - RosDriverForARS548：
-  - 接受json格式的传感器数据，并用以ROS消息的格式发布
+  - 接受 json 格式的传感器数据，并用以 ROS 消息的格式发布
 - rosbag_recorder
-  - 订阅RosDriverForARS548的话题，并生成bag文件
+  - 订阅 RosDriverForARS548 的话题，并生成 bag 文件
 
 ##### 流程：
 
-1. 使用wireshark将pcap(pcapng)的解析结果保存为json文件
+1. 使用 wireshark 将 pcap(pcapng) 的解析结果保存为 json 文件
 
-   注意需要ars548插件
+   注意需要 ars548 插件
 
-1. 使用RosDriverForARS548，直接从json文件读取解析结果，和字符流，并发布相关话题
+1. 使用 RosDriverForARS548，直接从 json 文件读取解析结果和字符流，并发布相关话题
 
-1. 同时使用rosbag_recorder订阅话题，转为bag文件
+1. 同时使用 rosbag_recorder 订阅话题，转为 bag 文件
 
 ##### 运行环境：
 
@@ -49,9 +49,9 @@ Autolabor（推荐）：http://www.autolabor.com.cn/book/ROSTutorials/chapter1/1
    sudo apt install wireshark
    ```
 
-   出现弹窗，选择“是”，允许Wireshark捕获网络数据包。
+   出现弹窗，选择“是”，允许 Wireshark 捕获网络数据包。
 
-2. 配置wireshark插件，使其能够解析ars548传感器数据。
+2. 配置 Wireshark 插件，使其能够解析 ars548 传感器数据。
 
    找到插件需要放置的位置：`/usr/lib/x86_64-linux-gnu/wireshark/plugins`
 
@@ -63,7 +63,7 @@ Autolabor（推荐）：http://www.autolabor.com.cn/book/ROSTutorials/chapter1/1
    sudo cp packet-ars548（大陆原版）.lua /usr/lib/x86_64-linux-gnu/wireshark/plugins
    ```
 
-   重启wireshark
+   重启 Wireshark
 
 ##### 3、安装nlohmann
 
@@ -128,7 +128,7 @@ cd .. && catkin_make -DCMAKE_BUILD_TYPE=Release
 
 - 不创建会报错：https://github.com/wulang584513/ARS548-demo/issues/3
 
-3）终端切换到项目工作空间根目录  `catkin_ws` , 编译
+3）切换到工作空间根目录  `catkin_ws` , 编译
 
 ```bash
 catkin_make
@@ -140,13 +140,15 @@ catkin_make
 vim ~/.bashrc
 ```
 
-最后一行添加如下内容。需要将 `PATH_TO_catkin_ws_FOLDER` 改为工作空间根目录。
+尾行添加以下内容
 
 ```bash
 source PATH_TO_catkin_ws_FOLDER/devel/setup.bash
 ```
 
-5 ) 保存 `.bashrc` 文件，在 `bash` 中执行如下命令，使环境变量立即生效
+-  `PATH_TO_catkin_ws_FOLDER`：工作空间根目录的绝对路经。
+
+5 ) 保存 `.bashrc` 文件；执行以下命令，使环境变量立即生效
 
 ```bash
 source ~/.bashrc
@@ -188,13 +190,15 @@ catkin_make
 vim ~/.bashrc
 ```
 
-最后一行添加如下内容。
+尾行添加以下内容。
 
 ```bash
 source PATH_TO_rosbag_tools_FOLDER/devel/setup.bash
 ```
 
-4）保存 `.bashrc` 文件，执行如下命令
+- `PATH_TO_rosbag_tools_FOLDER` 即 `rosbag_tools` 目录的绝对路径
+
+4）保存 `.bashrc` 文件；执行以下命令
 
 ```bash
 source ~/.bashrc
