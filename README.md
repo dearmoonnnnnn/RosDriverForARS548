@@ -1,7 +1,7 @@
 # 项目介绍
 
-- ARS548 4D毫米波雷达ROS驱动。
-- 将pcapng文件转换为bag文件
+- ARS548 4D毫米波雷达 ROS 驱动。
+- 将 pcapng 文件转换为 bag 文件
 
 ### 零、整体思路：
 
@@ -120,15 +120,15 @@ sudo apt-get install libpcap-dev
 
 ```bash
 cd ~/catkin_ws/src
-git clone https://github.com/letMeEmoForAWhile/RosDriverForARS548.git
+git clone https://github.com/dearmoonnnnnn/RosDriverForARS548.git
 cd .. && catkin_make -DCMAKE_BUILD_TYPE=Release
 ```
 
-2）在ars548_msg和ars548_process下创建include文件夹
+2）在 RosDriverForARS548 目录内创建include文件夹
 
 - 不创建会报错：https://github.com/wulang584513/ARS548-demo/issues/3
 
-3）终端切换到RosDriverForARS548根路径并编译
+3）终端切换到项目工作空间根目录  `catkin_ws` , 编译
 
 ```bash
 catkin_make
@@ -140,11 +140,13 @@ catkin_make
 vim ~/.bashrc
 ```
 
-在最后一行如下内容。需要将`PATH_TO_RosDriverForARS548_FOLDER`改成RosDriverForARS548的路径
+最后一行添加如下内容。需要将 `PATH_TO_catkin_ws_FOLDER` 改为工作空间根目录。
 
 ```bash
-source PATH_TO_RosDriverForARS548_FOLDER/devel/setup.bash
+source PATH_TO_catkin_ws_FOLDER/devel/setup.bash
 ```
+
+5 ) 保存 `.bashrc` 文件，在 `bash` 中执行如下命令，使环境变量立即生效
 
 ```bash
 source ~/.bashrc
@@ -162,33 +164,37 @@ roslaunch ars548_process ars548_process.launch
 
 ##### 0、修改路径
 
-在`rosbag_recorder.cpp`中修改`bag.open()`参数为输出的bag文件路径。
+在`rosbag_recorder.cpp` 中修改 `bag.open()` 参数为输出的bag文件路径。
 
 ##### 1、编译
 
 1）下载项目：
 
 ```bash
-git clone https://github.com/letMeEmoForAWhile/rosbag_tools.git
+git clone https://github.com/dearmoonnnnnn/rosbag_tools.git
 ```
 
-2）在根路径执行编译命令
+- 注意这里的 `rosbag_tools` 即 `catkin_ws` 
+
+2）在项目根路径执行编译命令
 
 ```bash
 catkin_make
 ```
 
-5）保存环境变量
+3）保存环境变量
 
 ```bash
 vim ~/.bashrc
 ```
 
-在最后一行如下内容。需要将`PATH_TO_rosbag_recorder_FOLDER`改成rosbag_recorder的路径
+最后一行添加如下内容。
 
 ```bash
-source PATH_TO_rosbag_recorder_FOLDER/devel/setup.bash
+source PATH_TO_rosbag_tools_FOLDER/devel/setup.bash
 ```
+
+4）保存 `.bashrc` 文件，执行如下命令
 
 ```bash
 source ~/.bashrc
@@ -196,7 +202,7 @@ source ~/.bashrc
 
 ##### 2、运行
 
-先启动RosDriverForARS548，再启动该项目。
+先启动 RosDriverForARS548，再启动该项目。
 
 ```bash
 rosrun rosbag_tools rosbag_recorder 
@@ -210,13 +216,13 @@ https://github.com/wulang584513/ARS548-demo/tree/master
 
 修改内容：
 
-1. 原项目希望解析`UDP`数据作为数据入口，但未实现
-   - 本项目使用`wireshark`解析结果的`json`文件作为输入
+1. 原项目希望解析 `UDP` 数据作为数据入口，但未实现
+   - 本项目使用 `wireshark` 解析结果的 `json` 文件作为输入
 2. 原项目发布的点云消息只包含位置信息
-   - 本项目增加了多普勒速度和信号强度（RCS），存储在`sensor_msgs::PointCloud`额外的两个通道中
-3. 原项目RCS数据类型定义错误，导致发布时该值与`wireshark`解析结果不符
+   - 本项目增加了多普勒速度和信号强度（`RCS`），存储在`sensor_msgs::PointCloud` 额外的两个通道中
+3. 原项目 `RCS` 数据类型定义错误，导致发布时该值与 `wireshark` 解析结果不符
    - 修改定义的结构体和自定义消息文件
 
 具体修改见：
 
-https://github.com/letMeEmoForAWhile/Notes/blob/main/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/%E4%BC%A0%E6%84%9F%E5%99%A8/ars548%E9%9B%B7%E8%BE%BEROS%E9%A9%B1%E5%8A%A8.md
+https://github.com/dearmoonnnnnn/Notes/blob/main/%E8%87%AA%E5%8A%A8%E9%A9%BE%E9%A9%B6/%E4%BC%A0%E6%84%9F%E5%99%A8/ars548%E9%9B%B7%E8%BE%BEROS%E9%A9%B1%E5%8A%A8.md
