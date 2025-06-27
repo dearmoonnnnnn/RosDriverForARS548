@@ -159,10 +159,10 @@ target_link_libraries(ars548_process_node
   ${catkin_LIBRARIES}  pcap
 )
 
-add_executable(test_radar_input_node src/test_radar_input_node.cpp)
-target_link_libraries(test_radar_input_node
-  ${catkin_LIBRARIES}
-)
+# add_executable(test_radar_input_node src/test_radar_input_node.cpp)
+# target_link_libraries(test_radar_input_node
+#   ${catkin_LIBRARIES}
+# )
 
 add_executable(info_convert_node src/info_convert_node.cpp)
 target_link_libraries(info_convert_node

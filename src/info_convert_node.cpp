@@ -83,7 +83,7 @@ void detectionReceive(const ars548_process::DetectionList& msg)
     sensor_msgs::ChannelFloat32 doppler_channel;         // 定义用于存储多普勒速度的通道,存储雷达点的f_RangeRate
     sensor_msgs::ChannelFloat32 intensity_channel;       // 定义用于存储信号强度的通道，存储雷达点的RCS
 
-    if( size > 0)
+    if (size > 0)
     {
         cloud.header.frame_id = "world";
         cloud.header.stamp = msg.detection_array[0].header.stamp;
@@ -105,6 +105,13 @@ void detectionReceive(const ars548_process::DetectionList& msg)
             // 将多普勒速度和信号强度存储到对应通道中
             doppler_channel.values.push_back(msg.detection_array[i].f_RangeRate); 
             intensity_channel.values.push_back(msg.detection_array[i].s_RCS);
+
+            if(1){
+                std::cout << "--------------- info_convert_node debug begin ---------------" << std::endl;
+                std::cout << "intensity_channel.values[" << i << "] : " << intensity_channel.values[i] << std::endl;
+                std::cout << "--------------- info_convert_node debug done ---------------" << std::endl;
+                std::cout << std::endl;
+            }
             
             //ROS_INFO("detectionReceive RCS : %d", msg.detection_array[i].s_RCS);
             //std::cout << "/------ detectionReceive RCS : " << msg.detection_array[i].s_RCS << std::endl;
@@ -112,7 +119,7 @@ void detectionReceive(const ars548_process::DetectionList& msg)
         }
 
         // 将通道添加到点云消息中
-        // cloud.channels[o].value[i]表示点i的多普勒速度
+        // cloud.channels[0].value[i]表示点i的多普勒速度
         // cloud.channels[1].value[i]表示点i的信号强度
         cloud.channels.push_back(doppler_channel);
         cloud.channels.push_back(intensity_channel);

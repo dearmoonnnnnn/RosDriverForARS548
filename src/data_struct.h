@@ -9,7 +9,7 @@ typedef struct _RadarDetection
     unsigned char u_InvalidFlags;
     float f_RangeRate;
     float f_RangeRateSTD;
-    unsigned int s_RCS;
+    signed char s_RCS;
     unsigned short u_MeasurementID;
     unsigned char u_PositivePredictiveValue;
     unsigned char u_Classification;

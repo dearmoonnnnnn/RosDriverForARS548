@@ -31,7 +31,7 @@ int rec_length;
 
 // const std::string  json_file_path =  "/home/dearmoon/datasets/NWU/日晴半室内低速2/4DRadar/RiQingBanShiNeiDiSu3.json";
 // const std::string  json_file_path =  "/home/dearmoon/datasets/NWU/json/xr_firstPacket.json";
-const std::string  json_file_path =  "/home/dearmoon/datasets/NWU/日雪不颠簸高速/4DRadar/xr.json";
+const std::string  json_file_path =  "/home/dearmoon/datasets/NWU/one_msg_for_test/one_msg.json";
 
 RadarObjectList object_list;
 RadarDetectionList detection_list;
@@ -225,7 +225,7 @@ void publishDetectionList(RadarDetectionList list, const std::string& timestampS
         det.f_RangeRate = list.detection_array[i].f_RangeRate;
         det.f_RangeRateSTD = list.detection_array[i].f_RangeRateSTD;
         det.s_RCS = list.detection_array[i].s_RCS;
-        if(1)
+        if(0)
         {
             std::cout << "/****** publishDetectionList " << std::endl;
             std::cout << "/------ 右值 s_RCS : " << list.detection_array[i].s_RCS << std::endl;

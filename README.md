@@ -31,7 +31,7 @@
 
 ### 一、配置环境：
 
-##### 1、安装ROS
+##### 1、安装 ROS
 
 参考如下链接：
 
@@ -41,9 +41,9 @@
 
 Autolabor（推荐）：http://www.autolabor.com.cn/book/ROSTutorials/chapter1/12-roskai-fa-gong-ju-an-zhuang/124-an-zhuang-ros.html
 
-##### 2、安装wireshark
+##### 2、安装 wireshark
 
-1. 安装wireshark软件
+1. 安装 wireshark 软件
 
    ```bash
    sudo apt install wireshark

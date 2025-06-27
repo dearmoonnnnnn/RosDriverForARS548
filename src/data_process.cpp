@@ -209,20 +209,21 @@ bool DataProcess::processDetectionListMessage(char *in, RadarDetectionList *d_li
         d_list->detection_array[num].f_y = f_Range*cos(f_ElevationAngle)*sin(f_AzimuthAngle);
         d_list->detection_array[num].f_z = f_Range*sin(f_ElevationAngle);
 
-    
 
         d_list->detection_array[num].u_InvalidFlags = (unsigned char)(in[base_index+8]);
         d_list->detection_array[num].f_RangeRate = cvt.byteToFloat(in + base_index +25);            // 点的径向速度
         d_list->detection_array[num].f_RangeRateSTD = cvt.byteToFloat(in + base_index +29);
        
         /*** RCS ***/
-        // d_list->detection_array[num].s_RCS = (signed char)(in[base_index+33]);                      // 点的RCS
-        d_list->detection_array[num].s_RCS = (static_cast<unsigned int>(*(in + base_index + 33)) & 0xFF);
+        d_list->detection_array[num].s_RCS = (signed char)(in[base_index+33]);                      // 点的RCS
+
+        // d_list->detection_array[num].s_RCS = (static_cast<unsigned int>(*(in + base_index + 33)) & 0xFF);
         if (0)
         {
-            std::cout << "/------ data_process s_RCS 赋值前: " << (static_cast<unsigned int>(*(in + base_index + 33)) & 0xFF) << std::endl;
+            std::cout << "/------ in[base_index + 33]: " << in[base_index+33] << std::endl;
+            std::cout << "/------ (int8_t)(in[base_index+33]): " << (int)(int8_t)in[base_index+33] << std::endl;
             std::cout << "/------ data_process s_RCS : " << d_list->detection_array[num].s_RCS << std::endl;
-            std::cout << std::endl;
+            std::cout << "--------------- data_process :  one msg done ---------------" << std::endl;
         }
         
 
